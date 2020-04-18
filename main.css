@@ -1,3 +1,47 @@
 @charset "UTF-8";
 /* CSS Document */
+*{
+	box-sizing: border-box;
+}
+
+@font-face{
+	font-family: header;
+	src: url();
+}
+
+
+@font-face{
+	font-family: paragraph;
+	src: url();
+}
+
+
+body{
+	background-image: url("images/beachroad.jpeg");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.js-intro{
+	display: flex;
+	width: 50%;
+	margin: auto;
+	justify-content: center;
+	font-size: 50px;
+}
+
+.nameOfApp{
+	display: none;
+}
+
+form{
+	display: none;
+}
+
+.input-itenerary{
+	display: none;
+}
+
 
