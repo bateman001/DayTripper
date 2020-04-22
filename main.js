@@ -32,6 +32,14 @@ function content(){
 	$(".input-screen").fadeIn(1000); 
 }
 
+$("form").submit(e => {
+	e.preventDefault();
+	
+	let state = $("").val();
+	let city = $("").val();
+	
+	validateAddress(city, state);
+});
 
 //FETCH REQUESTS
 function validateAddress(city, state){
