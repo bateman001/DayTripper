@@ -11,6 +11,7 @@
 //GOOGLE MAPS INFO
 //api key: AIzaSyBVFrBF21hllWQlXx4ipVC_c17v8BlMfZs
 //geolocation url: https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${state}&key=YOUR_API_KEY
+//directions: https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originCity},${originState}&destinations=${destinationCity},${destinationState}&key=YOUR_API_KEY
 
 
 
@@ -56,3 +57,4 @@ function validateAddress(city, state){
 		console.log(responseJson);
 	}).catch(err => alert("Wrong address"));
 }
+
