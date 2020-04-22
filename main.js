@@ -14,6 +14,11 @@
 //directions: https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originCity},${originState}&destinations=${destinationCity},${destinationState}&key=YOUR_API_KEY
 
 
+const zamatoApiKey = '6d305f760284a82816236872c2cd5935';
+const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM'
+const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1'
+
+
 
 //APP UI
 $(document).ready(function(){
@@ -32,6 +37,20 @@ function content(){
 	$(".nameOfApp").fadeIn(1000);
 	$(".input-screen").fadeIn(1000); 
 }
+
+
+function getQueryParams(params){
+	const queryItems = Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+  return queryItems.join('&');
+}
+
+
+function getZamatoData(searchTerm) {
+	const query = getQueryParams();
+	
+}
+
 
 $("form").submit(e => {
 	e.preventDefault();
@@ -57,4 +76,3 @@ function validateAddress(city, state){
 		console.log(responseJson);
 	}).catch(err => alert("Wrong address"));
 }
-
