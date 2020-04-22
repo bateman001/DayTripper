@@ -59,6 +59,7 @@ function getZomatoData(destinationCity, destinationState) {
 	const url = 'https://developers.zomato.com/api/v2.1/collections?city_id=279&lat=47.6205&lon=122.3493&count=1';
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	let destinationCity = $("#destinationCity").val();
 	let destinationState = $("#js-search2").find(":selected").val();
 	
@@ -67,6 +68,8 @@ function getZomatoData(destinationCity, destinationState) {
 	
 	fetchMap(origin, destination);
 =======
+=======
+>>>>>>> 8cc3edf9def87bb6ee3701c919b9320b153980d1
 	const options = {
 		headers: new Headers({
 			"user-key": zamatoApiKey
@@ -83,6 +86,9 @@ function getZomatoData(destinationCity, destinationState) {
 
 function watchForm(){
 	$("form").submit(e => {
+<<<<<<< HEAD
+>>>>>>> 8cc3edf9def87bb6ee3701c919b9320b153980d1
+=======
 >>>>>>> 8cc3edf9def87bb6ee3701c919b9320b153980d1
 	
 		e.preventDefault();
