@@ -13,65 +13,68 @@
 //geolocation url: https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${state}&key=YOUR_API_KEY
 
 
-const zamatoApiKey = '6d305f760284a82816236872c2cd5935';
-const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM'
-const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1'
+//-----APP UI-----//
+$(document).ready(function () {
 
-
-
-//APP UI
-$(document).ready(function(){
-	
 	$(".js-intro").css("display", "block");
-	
+
 	setTimeout(welcomeFade, 1000);
 	setTimeout(content, 3000);
- });
+});
 
-function welcomeFade(){
+function welcomeFade() {
 	$(".js-intro").fadeOut(2000);
 }
 
-function content(){
+function content() {
 	$(".nameOfApp").fadeIn(1000);
-	$(".input-screen").fadeIn(1000); 
+	$(".input-screen").fadeIn(1000);
 }
+//-----End APP UI-----//
 
-
-function getQueryParams(params){
+//--------------Jerrad Work Zone--------------//
+function getQueryParams(params) {
 	const queryItems = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-  return queryItems.join('&');
+		.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+	return queryItems.join('&');
 }
 
 
-function getZamatoData(searchTerm) {
-	const query = getQueryParams();
-	
+function getFourSqData(destination, destState) {
+	const url = 'https://api.foursquare.com/v2/venues/search?client_id=G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM&client_secret=SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1&v=20200421&near=Ocean Shores, WA&categoryId=4d4b7104d754a06370d81259&limit=1';
+
+	fetch(url)
+	.then(response => response.json())
+	.then(responseJson => console.log(responseJson))
 }
 
 
-$("form").submit(e => {
-	e.preventDefault();
-	
-	let state = $("").val();
-	let city = $("").val();
-	
-	validateAddress(city, state);
-});
+function getZamatoData(destination, destState) {
+	const zamatoApiKey = '6d305f760284a82816236872c2cd5935';
+	const url = 'https://developers.zomato.com/api/v2.1/collections?city_id=279&lat=47.6205&lon=122.3493&count=1';
 
-//FETCH REQUESTS
-function validateAddress(city, state){
-	
-	const url = `https://maps.googleapis.com/maps/api/geocode/jsonaddress=${city},+${state}&key=AIzaSyBVFrBF21hllWQlXx4ipVC_c17v8BlMfZs`;
-	
-	fetch(url).then(response => {
-		if(!response.ok){
-			throw new Error (response.message)
-		}else{
-			return response.json();
-		}
-	}).then(responseJson => {
-		console.log(responseJson);
-	}).catch(err => alert("Wrong address"));
+	const options = {
+		headers: new Headers({
+			"user-key": zamatoApiKey
+		})
+	};
+
+	fetch(url, options)
+		.then(response => response.json())
+		.then(responseJson => console.log(responseJson))
+
 }
+
+function watchForm() {
+	$('#form').submit(event => {
+		event.preventDefault();
+		const destination = $('#destination').val();
+		const destState = $('#js-dest-state').val();
+		getZamatoData(destination, destState);
+		getFourSqData(destination, destState);
+	});
+}
+
+$(watchForm);
+//-----End Jerrad Work Zone------//
+
