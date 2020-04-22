@@ -13,11 +13,16 @@
 //geolocation url: https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${state}&key=YOUR_API_KEY
 //directions: https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${originCity},${originState}&destinations=${destinationCity},${destinationState}&key=YOUR_API_KEY
 
+//MAP QUEST INFO
+//GEOCODE: http://open.mapquestapi.com/geocoding/v1/address?key=KEY&location=${CITY},${STATE}
 
+
+const mapQuestKey = 'nz5VddD23ce9UIWdEbxB4pe2tM6YEyOD';
 const zamatoApiKey = '6d305f760284a82816236872c2cd5935';
-const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM'
-const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1'
-
+const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM';
+const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1';
+let origin = []; //lat[0], lng[1]
+let destination = []; //lat[0], lng[1]
 
 
 //APP UI
@@ -53,26 +58,95 @@ function getZamatoData(searchTerm) {
 
 
 $("form").submit(e => {
+	
 	e.preventDefault();
 	
-	let state = $("").val();
-	let city = $("").val();
+	let startCity = $("#startCity").val();
+	let startState = $("#js-search1").find(":selected").val();
 	
-	validateAddress(city, state);
+	let destinationCity = $("#destinationCity").val();
+	let destinationState = $("#js-search2").find(":selected").val();
+	
+	getOrigin(startCity, startState);	
+	getDestination(destinationCity, destinationState);		
+	
 });
 
 //FETCH REQUESTS
-function validateAddress(city, state){
+function getOrigin(city, state){ //function fetches start city, state pair and passes object to a lat and lng function
 	
-	const url = `https://maps.googleapis.com/maps/api/geocode/jsonaddress=${city},+${state}&key=AIzaSyBVFrBF21hllWQlXx4ipVC_c17v8BlMfZs`;
+	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
-	fetch(url).then(response => {
-		if(!response.ok){
-			throw new Error (response.message)
-		}else{
-			return response.json();
-		}
-	}).then(responseJson => {
-		console.log(responseJson);
-	}).catch(err => alert("Wrong address"));
+	console.log(url);
+	
+	fetch(url)
+		.then(response => response.json())
+		.then(responseJson => originLatandLng(responseJson))
+		.catch(err => alert("Wrong address"));
+	
 }
+	
+function getDestination(city, state){ //function fetches destintion city and state pair and passes object to a lat and lng function
+	
+	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
+	
+	console.log(url);
+	
+	fetch(url)
+		.then(response => response.json())
+		.then(responseJson => destinationLatandLng(responseJson))
+		.catch(err => alert("Wrong address"));
+}
+
+function originLatandLng(responseJson){
+	
+	console.log("origin lat: ", responseJson.results[0].locations[0].latLng.lat);
+	
+	origin.push(responseJson.results[0].locations[0].latLng.lat);
+	origin.push(responseJson.results[0].locations[0].latLng.lng);
+	
+	console.log(origin);
+		
+}
+
+function destinationLatandLng(responseJson){
+	
+	console.log("destination lat: ", responseJson.results[0].locations[0].latLng.lat);
+
+	destination.push(responseJson.results[0].locations[0].latLng.lat);
+	destination.push(responseJson.results[0].locations[0].latLng.lng);
+		
+	console.log(destination);
+
+}
+//function getSameDayWeather(lat, lon){
+	//const url = ``;
+	
+//	fetch(url).then(response => if(!response.ok){
+//		throw new Error (response.message);
+//	}else{
+//		return response.json();
+//	}).then(responseJson => displayWeather(responseJon)).catch(err => "something went wrong");
+//}
+
+//function get16DayWeather(lat, lon){
+//	const url = ``;
+//	
+//	fetch(url).then(response => if(!response.ok){
+///		throw new Error (response.message);
+//	}else{
+//		return response.json();
+//	}).then(responseJson => displayWeather(responseJon)).catch(err => "something went wrong");
+//	
+//}
+//
+//function get30DayWeather(lat, lon){
+//	const url = ``;
+//	
+//	fetch(url).then(response => if(!response.ok){
+//		throw new Error (response.message);
+//	}else{
+//		return response.json();
+//	}).then(responseJson => displayWeather(responseJon)).catch(err => "something went wrong");
+//	
+//}

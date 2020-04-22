@@ -17,10 +17,14 @@
 	<section class="input-screen">
 		<form>
 			<legend>Plan Your Trip!</legend>
-			<label for="start">Start Location</label>
-			<input id="start" type="text" required>
+			
+			<legend>Start Location</legend>
+			
+			<label for="startCity">City</label>
+			<input id="startCity" type="text" required>
+			
 			<label for="startState">State</label>
-			<select name="search-term" id="js-search">
+			<select name="search-term" id="js-search1">
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -72,10 +76,13 @@
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
               </select>
-			<label for="destination">Destination</label>
-			<input id="destination" type="text" required>
+			<legend>Destination</legend>
+			
+			<label for="destinationCity">City</label>
+			<input id="destinationCity" type="text" required>
+			
 			<label for="destState">State</label>
-			<select name="search-term" id="js-search">
+			<select name="search-term" id="js-search2">
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -127,12 +134,13 @@
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
               </select>
+		<!--	
 			<label for="date">Date</label>
 			<input id="date" type="date" required>
 			
 			<label for="time">Time of Departure</label>
 			<input id="time" type="time" required>
-			
+		-->	
 			<button type="submit">submit</button>
 		</form>
 		
@@ -181,15 +189,18 @@
 	</section>
 	
 </body>
+	
+	
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+	
 	<script
   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   crossorigin="anonymous"></script>
 
-	<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
 
 	<script src="main.js"></script>
 </html>

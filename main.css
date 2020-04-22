@@ -4,6 +4,7 @@
 	box-sizing: border-box;
 }
 
+/*
 @font-face{
 	font-family: header;
 	src: url("");
@@ -14,7 +15,7 @@
 	font-family: paragraph;
 	src: url();
 }
-
+*/
 h1{
 	font-family: header;
 	font-size: 60px;
@@ -63,7 +64,7 @@ label{
 	margin-top: 5%;	
 }
 
-input{
+select, input{
 	width: 50%;
 	margin: auto;
 	text-align: center;
