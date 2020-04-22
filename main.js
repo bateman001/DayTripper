@@ -9,6 +9,8 @@
 //Within 30 Day Forecast: https://pro.openweathermap.org/data/2.5/climate/month?id=2643743&appid={YOUR API KEY}
 //
 //GOOGLE MAPS INFO
+//api key: AIzaSyBVFrBF21hllWQlXx4ipVC_c17v8BlMfZs
+//geolocation url: https://maps.googleapis.com/maps/api/geocode/json?address=${city},+${state}&key=YOUR_API_KEY
 
 
 const zamatoApiKey = '6d305f760284a82816236872c2cd5935';
@@ -16,8 +18,12 @@ const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM'
 const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1'
 
 
+
+//APP UI
 $(document).ready(function(){
+	
 	$(".js-intro").css("display", "block");
+	
 	setTimeout(welcomeFade, 1000);
 	setTimeout(content, 3000);
  });
@@ -45,3 +51,27 @@ function getZamatoData(searchTerm) {
 }
 
 
+$("form").submit(e => {
+	e.preventDefault();
+	
+	let state = $("").val();
+	let city = $("").val();
+	
+	validateAddress(city, state);
+});
+
+//FETCH REQUESTS
+function validateAddress(city, state){
+	
+	const url = `https://maps.googleapis.com/maps/api/geocode/jsonaddress=${city},+${state}&key=AIzaSyBVFrBF21hllWQlXx4ipVC_c17v8BlMfZs`;
+	
+	fetch(url).then(response => {
+		if(!response.ok){
+			throw new Error (response.message)
+		}else{
+			return response.json();
+		}
+	}).then(responseJson => {
+		console.log(responseJson);
+	}).catch(err => alert("Wrong address"));
+}
