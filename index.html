@@ -16,9 +16,10 @@
 	
 	<section class="input-screen">
 		<form id="form">
-			<legend>Plan Your Trip!</legend>
-			
-			<legend>Start Location</legend>
+		  <h2 class="bigLengend">Plan Your Trip</h2>
+		<div class="flex1">	
+			<div class="flex2">
+		  <legend>Your Location</legend>
 			
 			<label for="startCity">City</label>
 			<input id="startCity" type="text" required>
@@ -76,7 +77,10 @@
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
               </select>
-			<legend>Destination</legend>
+			</div>
+			
+			<div class="flex2">
+			<legend> Your Destination</legend>
 			
 			<label for="destinationCity">City</label>
 			<input id="destinationCity" type="text" required>
@@ -134,6 +138,8 @@
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
               </select>
+				</div>
+			</div>
 		<!--	
 			<label for="date">Date</label>
 			<input id="date" type="date" required>
