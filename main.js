@@ -1,18 +1,14 @@
 //JavaScript Document
 //
 //WEATHER API INFO
-//weather api key: c13d4b80ab21751c22f9351b411259d7
 //3 weather options: current, 10 day forecast, 30 day 
 //Same Day Forecast url: api.openweathermap.org/data/2.5/weather?q={city name},{state},{country code}&appid={your api key}
-//Within 16 Day Forecast: api.openweathermap.org/data/2.5/forecast/daily?id={city ID}&cnt={cnt}&appid={your api key}
-//			*Find date with UNIX timestamp*
-//Within 30 Day Forecast: https://pro.openweathermap.org/data/2.5/climate/month?id=2643743&appid={YOUR API KEY}
 //
 //MAP QUEST INFO
 //GEOCODE: http://open.mapquestapi.com/geocoding/v1/address?key=KEY&location=${CITY},${STATE}
 //MAP w/ ROOUTE: https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}
 
-
+const weatherKey = 'c13d4b80ab21751c22f9351b411259d7';
 const mapQuestKey = 'nz5VddD23ce9UIWdEbxB4pe2tM6YEyOD';
 const zamatoApiKey = '6d305f760284a82816236872c2cd5935';
 const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM';
@@ -38,6 +34,14 @@ function content() {
 	$(".nameOfApp").fadeIn(1000);
 	$(".input-screen").fadeIn(1000);
 }
+
+function displayItineraryInput(){
+		
+	$(".input-screen").hide();
+	$(".input-itinerary").show();
+	
+	
+}
 //-----End APP UI-----//
 
 // function getQueryParams(params) {
@@ -57,39 +61,24 @@ function getFourSqData(destinationCity, destinationState) {
 
 function getZomatoData(destinationCity, destinationState) {
 	const url = 'https://developers.zomato.com/api/v2.1/collections?city_id=279&lat=47.6205&lon=122.3493&count=1';
-	
-<<<<<<< HEAD
-<<<<<<< HEAD
-	let destinationCity = $("#destinationCity").val();
-	let destinationState = $("#js-search2").find(":selected").val();
-	
-	getOrigin(startCity, startState);	
-	getDestination(destinationCity, destinationState);	
-	
-	fetchMap(origin, destination);
-=======
-=======
->>>>>>> 8cc3edf9def87bb6ee3701c919b9320b153980d1
+		
 	const options = {
 		headers: new Headers({
 			"user-key": zamatoApiKey
 		})
 	};
+	
 	console.log(destinationCity, destinationState);
 	console.log(options);
 
 	fetch(url, options)
 	.then(response => response.json())
-	.then(responseJson => console.log(responseJson))
+	.then(responseJson => console.log(responseJson));
 
 }
 
 function watchForm(){
 	$("form").submit(e => {
-<<<<<<< HEAD
->>>>>>> 8cc3edf9def87bb6ee3701c919b9320b153980d1
-=======
->>>>>>> 8cc3edf9def87bb6ee3701c919b9320b153980d1
 	
 		e.preventDefault();
 		
@@ -99,11 +88,21 @@ function watchForm(){
 		let destinationCity = $("#destinationCity").val();
 		let destinationState = $("#js-search2").find(":selected").val();
 		
+		//let todaysDate = new Date();
+		
+		//let selectedDate = new Date($("#date").val());
+		
+		
+		//console.log("today: " + todaysDate);
+		//console.log("selected: " + selectedDate);
+		//console.log("day: " + day);
+		
 		getOrigin(startCity, startState);	
 		getDestination(destinationCity, destinationState);
 		getFourSqData(destinationCity, destinationState);
 		getZomatoData(destinationCity, destinationState);	
 		
+		displayItineraryInput();
 	});
 }
 
@@ -150,26 +149,40 @@ function destinationLatandLng(responseJson){
 	destination.push(responseJson.results[0].locations[0].latLng.lng);
 		
 	console.log(destination);
+	
+	getSameDayWeather();
 
 }
 
-function fetchMap(origin, destination){
+//function fetchMap(){
 	
-	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
+//	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
 	
-	console.log("map origin: " + origin);
-	console.log("map dest: " + destination);
+//	console.log(url);
 	
-//	fetch(url)
-//		.then(response => response.json())
-//		.then(responseJson => console.log(responseJson))
-//		.catch(err => alert("something is wrong"));
+//fetch(url)
+	//	.then(response => response.json())
+	//	.then(responseJson => console.log(responseJson))
+	//	.catch(err => alert("something is wrong"));
 	
+//}
+
+function getSameDayWeather(){
+	const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${destination[0]}&lon=${destination[1]}&units=imperial&appid=${weatherKey}`;
+	 console.log(destination[0]);
+	console.log(url);
+	
+	fetch(url)
+		.then(response => response.json())
+		.then(responseJson => displayWeather(responseJson))
+		.catch(err => alert("something is wrong"));
 }
 
-//function getSameDayWeather(lat, lon){
-	//const url = ``;
+function displayWeather(responseJson){
+	console.log(responseJson);
 	
+	$(".weather").append(`<h1>Weather</h1> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> You can expect ${responseJson.daily[0].weather[0].description}.`);
+}
 //	fetch(url).then(response => if(!response.ok){
 //		throw new Error (response.message);
 //	}else{
