@@ -44,6 +44,7 @@ function displayItineraryInput(){
 	$(".input-itinerary").css("display", "block");
 	
 	getMap(origin, destination);
+	getDirections(origin, destination);
 	
 	
 }
@@ -149,9 +150,7 @@ function watchForm(){
 		let destinationState = $("#js-search2").find(":selected").val();
 		
 		getOrigin(startCity, startState);	
-		
-		console.log("start: " + startCity + " " + startState);
-		
+				
 		getDestination(destinationCity, destinationState)
 		.then(data => {
 			displayItineraryInput();
@@ -172,6 +171,16 @@ function getMap(origin, destination){
 	
 	$(".route").append(`<img src="${url}" alt="map" width="300" height="200">`);
 	
+}
+
+function getDirections(origin, destination){
+	
+	let url = `http://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
+	
+	fetch(url)
+		.then(response => response.json())
+		.then(responseJson => console.log(responseJson))
+		.catch(err => alert("someting went wrong"));
 }
 
 function getSameDayWeather(destination){
