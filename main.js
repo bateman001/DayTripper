@@ -155,7 +155,7 @@ function watchForm(){
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
 			getSameDayWeather(destination);
-			//getMap();
+			getMap();
 
 
 		});
@@ -164,18 +164,13 @@ function watchForm(){
 }
 $(watchForm);
 
-//function getMap(){
+function getMap(){
 	
-//	let url = `https://www.mapquestapi.com/staticmap/v4/getmap?size=600,500&type=map&zoom=8&center=${destination[0]},${destination[1]}&imagetype=JPEG&key=${mapQuestKey}`;
+	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
 	
-//	console.log(url);
+	$(".route").append(`<img src="${url}" alt="map" width="300" height="200">`);
 	
-//fetch(url)
-	//	.then(response => response.json())
-	//	.then(responseJson => $(".route").append(`<image src="${responseJson}" alt="map">`))
-	//	.catch(err => alert("something is wrong"));
-	
-//}
+}
 
 function getSameDayWeather(destination){
 	const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${destination[0]}&lon=${destination[1]}&units=imperial&appid=${weatherKey}`;
@@ -188,7 +183,7 @@ function getSameDayWeather(destination){
 
 function displayWeather(responseJson){
 	
-	$(".weather").append(`<h1>Weather</h1> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> You can expect ${responseJson.daily[0].weather[0].description}.`);
+	$(".weather").append(`<h1>Weather</h1> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> Expect: ${responseJson.daily[0].weather[0].description}.`);
 }
 //	fetch(url).then(response => if(!response.ok){
 //		throw new Error (response.message);
