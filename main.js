@@ -43,6 +43,8 @@ function displayItineraryInput(){
 	$(".input-screen").css("display", "none");
 	$(".input-itinerary").css("display", "block");
 	
+	getMap(origin, destination);
+	
 	
 }
 //-----End APP UI-----//
@@ -54,7 +56,6 @@ function getOrigin(city, state){ //function fetches start city, state pair and p
 	
 	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
-	console.log(url);
 	
 	fetch(url)
 		.then(response => response.json())
@@ -67,7 +68,6 @@ function getDestination(city, state){ //function fetches destintion city and sta
 	
 	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
-	console.log(url);
 
 	return fetch(url)
 		.then(response => response.json())
@@ -149,14 +149,15 @@ function watchForm(){
 		let destinationState = $("#js-search2").find(":selected").val();
 		
 		getOrigin(startCity, startState);	
+		
+		console.log("start: " + startCity + " " + startState);
+		
 		getDestination(destinationCity, destinationState)
 		.then(data => {
 			displayItineraryInput();
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
 			getSameDayWeather(destination);
-			getMap();
-
 
 		});
 	});
@@ -164,7 +165,8 @@ function watchForm(){
 }
 $(watchForm);
 
-function getMap(){
+function getMap(origin, destination){
+	
 	
 	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
 	
