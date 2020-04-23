@@ -13,6 +13,7 @@
 
 
 //global variables and constants
+const weatherKey = 'c13d4b80ab21751c22f9351b411259d7';
 const mapQuestKey = 'nz5VddD23ce9UIWdEbxB4pe2tM6YEyOD';
 const zomatoApiKey = '6d305f760284a82816236872c2cd5935';
 let origin = []; //lat[0], lng[1]
@@ -39,8 +40,8 @@ function content() {
 
 function displayItineraryInput(){
 		
-	$(".input-screen").hide();
-	$(".input-itinerary").show();
+	$(".input-screen").css("display", "none");
+	$(".input-itinerary").css("display", "block");
 	
 	
 }
@@ -92,7 +93,7 @@ function destinationLatandLng(responseJson){
 		
 	console.log(destination);
 	
-	getSameDayWeather();
+}
 
 function getZomatoLocationData(city, destination) {
 	const url = `https://developers.zomato.com/api/v2.1/locations?query=${city}&lat=${destination[0]}&lon=${destination[1]}&count=1`
@@ -150,32 +151,35 @@ function watchForm(){
 		getOrigin(startCity, startState);	
 		getDestination(destinationCity, destinationState)
 		.then(data => {
+			displayItineraryInput();
 			getFourSqData(destinationCity, destinationState);
-			getZomatoLocationData(destinationCity, destination);	
-		})
-		
+			getZomatoLocationData(destinationCity, destination);
+			getSameDayWeather(destination);
+			//getMap();
+
+
+		});
 	});
+	
 }
 $(watchForm);
 
-//function fetchMap(){
+//function getMap(){
 	
-//	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
+//	let url = `https://www.mapquestapi.com/staticmap/v4/getmap?size=600,500&type=map&zoom=8&center=${destination[0]},${destination[1]}&imagetype=JPEG&key=${mapQuestKey}`;
 	
 //	console.log(url);
 	
 //fetch(url)
 	//	.then(response => response.json())
-	//	.then(responseJson => console.log(responseJson))
+	//	.then(responseJson => $(".route").append(`<image src="${responseJson}" alt="map">`))
 	//	.catch(err => alert("something is wrong"));
 	
 //}
 
-function getSameDayWeather(){
+function getSameDayWeather(destination){
 	const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${destination[0]}&lon=${destination[1]}&units=imperial&appid=${weatherKey}`;
-	 console.log(destination[0]);
-	console.log(url);
-	
+		
 	fetch(url)
 		.then(response => response.json())
 		.then(responseJson => displayWeather(responseJson))
@@ -183,7 +187,6 @@ function getSameDayWeather(){
 }
 
 function displayWeather(responseJson){
-	console.log(responseJson);
 	
 	$(".weather").append(`<h1>Weather</h1> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> You can expect ${responseJson.daily[0].weather[0].description}.`);
 }
