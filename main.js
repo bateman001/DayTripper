@@ -43,10 +43,6 @@ function displayItineraryInput(){
 	$(".input-screen").css("display", "none");
 	$(".input-itinerary").css("display", "block");
 	
-	getMap(origin, destination);
-	getDirections(origin, destination);
-	
-	
 }
 //-----End APP UI-----//
 
@@ -157,6 +153,8 @@ function watchForm(){
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
 			getSameDayWeather(destination);
+			getMap(origin, destination);
+			getDirections(origin, destination);
 
 		});
 	});
@@ -169,6 +167,9 @@ function getMap(origin, destination){
 	
 	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
 	
+	console.log(origin[0]);
+	console.log(destination);
+	
 	$(".route").append(`<img src="${url}" alt="map" width="300" height="200">`);
 	
 }
@@ -177,6 +178,8 @@ function getDirections(origin, destination){
 	
 	let url = `http://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
 	
+	console.log(origin[0]);
+	console.log(destination);
 	fetch(url)
 		.then(response => response.json())
 		.then(responseJson => console.log(responseJson))
