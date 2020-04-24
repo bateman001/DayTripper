@@ -119,16 +119,33 @@ function getZomatoCollectionData(cityId, destination) {
 
 }
 
+
+function displayActivities(responseJson){
+	const recommended = responseJson.response.groups.filter(g => g.name === 'recommended')[0].items.slice(0, 5);
+
+	console.log(recommended);
+		
+	for(const r of recommended){
+		$(".js-activities").append(`<p>${r.venue.name}</p>`);
+
+	}
+	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[1]}</p>`);
+	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[2]}</p>`);
+
+}
+
+
 function getFourSqData(city, state) {
 	const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM';
 	const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1';
 
-	const url = `https://api.foursquare.com/v2/venues/search?client_id=${fourSqClientId}&client_secret=${fourSqClientSecret}&v=20200421&near=${city},${state}&categoryId=4d4b7104d754a06370d81259&limit=1`;
+	const url = `https://api.foursquare.com/v2/venues/explore?v=20200421&client_id=${fourSqClientId}&client_secret=${fourSqClientSecret}&section=outdoors&near=${city}, ${state}&radius=2000&limit=10`;
 
 	fetch(url)
 	.then(response => response.json())
-	.then(responseJson => console.log(responseJson))
+	.then(responseJson => displayActivities(responseJson))
 }
+
 //---End Fetch Requests---//
 
 function watchForm(){
