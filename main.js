@@ -17,12 +17,11 @@ const weatherKey = 'c13d4b80ab21751c22f9351b411259d7';
 const mapQuestKey = 'nz5VddD23ce9UIWdEbxB4pe2tM6YEyOD';
 const zomatoApiKey = '6d305f760284a82816236872c2cd5935';
 let origin = []; //lat[0], lng[1]
-let destination = []; //lat[0], lng[1]
+let destination = [] //lat[0], lng[1]
 
 
 //-----APP UI-----//
 $(document).ready(function(){
-	
 	$(".js-intro").css("display", "block");
 
 	setTimeout(welcomeFade, 1000);
@@ -41,8 +40,7 @@ function content() {
 function displayItineraryInput(){
 		
 	$(".input-screen").css("display", "none");
-	$(".input-itinerary").css("display", "block");
-	
+	$(".input-itenerary").css("display", "block");
 }
 //-----End APP UI-----//
 
@@ -54,7 +52,7 @@ function getOrigin(city, state){ //function fetches start city, state pair and p
 	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
 	
-	fetch(url)
+	return fetch(url)
 		.then(response => response.json())
 		.then(responseJson => originLatandLng(responseJson))
 		.catch(err => alert("Wrong address"));
@@ -65,7 +63,6 @@ function getDestination(city, state){ //function fetches destintion city and sta
 	
 	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
-
 	return fetch(url)
 		.then(response => response.json())
 		.then(responseJson => destinationLatandLng(responseJson))
@@ -78,7 +75,7 @@ function originLatandLng(responseJson){
 	origin.push(responseJson.results[0].locations[0].latLng.lat);
 	origin.push(responseJson.results[0].locations[0].latLng.lng);
 	
-	console.log(origin);
+	console.log("origin: " + origin);
 		
 }
 
@@ -88,7 +85,7 @@ function destinationLatandLng(responseJson){
 	destination.push(responseJson.results[0].locations[0].latLng.lat);
 	destination.push(responseJson.results[0].locations[0].latLng.lng);
 		
-	console.log(destination);
+	console.log("destination: " + destination);
 	
 }
 
@@ -145,16 +142,15 @@ function watchForm(){
 		let destinationCity = $("#destinationCity").val();
 		let destinationState = $("#js-search2").find(":selected").val();
 		
-		getOrigin(startCity, startState);	
-				
-		getDestination(destinationCity, destinationState)
-		.then(data => {
+		Promise.all([getOrigin(startCity, startState), getDestination(destinationCity, destinationState)])
+			.then(data => {
+
 			displayItineraryInput();
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
 			getSameDayWeather(destination);
-			getMap(origin, destination);
 			getDirections(origin, destination);
+			getMap(origin, destination);
 
 		});
 	});
@@ -166,11 +162,10 @@ function getMap(origin, destination){
 	
 	
 	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
-	
-	console.log(origin[0]);
-	console.log(destination);
-	
+		
 	$(".route").append(`<img src="${url}" alt="map" width="300" height="200">`);
+	
+	$(".route").css("display", "block");
 	
 }
 
@@ -178,11 +173,9 @@ function getDirections(origin, destination){
 	
 	let url = `http://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
 	
-	console.log(origin[0]);
-	console.log(destination);
 	fetch(url)
 		.then(response => response.json())
-		.then(responseJson => console.log(responseJson))
+		.then(responseJson => displayDirections(responseJson))
 		.catch(err => alert("someting went wrong"));
 }
 
@@ -195,10 +188,27 @@ function getSameDayWeather(destination){
 		.catch(err => alert("something is wrong"));
 }
 
+function displayDirections(responseJson){
+	
+	let miles = responseJson.route.distance;
+	console.log("distance: ", miles);
+}
+
 function displayWeather(responseJson){
 	
 	$(".weather").append(`<h1>Weather</h1> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> Expect: ${responseJson.daily[0].weather[0].description}.`);
+	
+	$(".weather").css("display", "inline");
 }
+
+//function displayRestaurants(responseJson){
+	//console.log("restaurants: ", responseJson);
+	
+	//$(".js-restaurants").append("<h1>Food</h1>");
+	
+	//$(".js-restaurants").css("display", "inline");
+//}
+
 //	fetch(url).then(response => if(!response.ok){
 //		throw new Error (response.message);
 //	}else{
