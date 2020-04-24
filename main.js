@@ -25,7 +25,7 @@ $(document).ready(function(){
 	$(".js-intro").css("display", "block");
 
 	setTimeout(welcomeFade, 1000);
-	setTimeout(content, 3000);
+	setTimeout(content, 4000);
 });
 
 function welcomeFade() {
@@ -34,7 +34,7 @@ function welcomeFade() {
 
 function content() {
 	$(".nameOfApp").fadeIn(1000);
-	$(".input-screen").fadeIn(1000);
+	$(".input-screen").show("blind", {direction: "up"}, 2000);
 }
 
 function displayItineraryInput(){
@@ -210,6 +210,15 @@ function displayRestaurants(responseJson){
 	$(".js-restaurants").append(`<a href="${responseJson.share_url}"><p>Restaurants</p></a>`);
 	
 }
+
+$("#js-back").on("click", function(){
+	$(".weather").empty();
+	$(".route").empty();
+	$(".js-restaurants").empty();
+	$(".js-activities").empty();
+	$(".input-itenerary").hide();
+	$(".input-screen").show();
+});
 
 //	fetch(url).then(response => if(!response.ok){
 //		throw new Error (response.message);
