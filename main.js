@@ -115,7 +115,7 @@ function getZomatoCollectionData(cityId, destination) {
 
 	fetch(url, options)
 	.then(response => response.json())
-	.then(responseJson => console.log(responseJson))
+	.then(responseJson => displayRestaurants(responseJson))
 
 }
 
@@ -189,9 +189,12 @@ function getSameDayWeather(destination){
 }
 
 function displayDirections(responseJson){
-	
+	let realtime = responseJson.route.realTime;
 	let miles = responseJson.route.distance;
-	console.log("distance: ", miles);
+	let roundedMiles = Math.round(miles);
+	let time = Math.floor(realtime / 3600);
+	console.log(time);
+	$(".route").append("Trip: " + roundedMiles + "miles/" + time + "hours" )
 }
 
 function displayWeather(responseJson){
@@ -201,13 +204,12 @@ function displayWeather(responseJson){
 	$(".weather").css("display", "inline");
 }
 
-//function displayRestaurants(responseJson){
-	//console.log("restaurants: ", responseJson);
+function displayRestaurants(responseJson){
+	console.log("restaurants: ", responseJson);
 	
-	//$(".js-restaurants").append("<h1>Food</h1>");
+	$(".js-restaurants").append(`<a href="${responseJson.share_url}"><p>Restaurants</p></a>`);
 	
-	//$(".js-restaurants").css("display", "inline");
-//}
+}
 
 //	fetch(url).then(response => if(!response.ok){
 //		throw new Error (response.message);
