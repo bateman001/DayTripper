@@ -6,7 +6,7 @@
 //
 //MAP QUEST INFO
 //GEOCODE: http://open.mapquestapi.com/geocoding/v1/address?key=KEY&location=${CITY},${STATE}
-//MAP w/ ROOUTE: https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}
+//MAP w/ ROOUTE: https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&key=${mapQuestKey}
 
 
 //---Code Start---//
@@ -37,14 +37,44 @@ function content() {
 	$(".input-screen").show("blind", {direction: "up"}, 2000);
 }
 
-function displayItineraryInput(){
+function displayItineraryInput(startCity, destinationCity){
 		
+	console.log("cities" + startCity + destinationCity);
 	$(".input-screen").css("display", "none");
-	$(".input-itenerary").css("display", "block");
+	$("#origin").html(startCity);
+	$("#destination").html(destinationCity);
+	$(".input-itenerary").css("display", "flex");
 }
 //-----End APP UI-----//
 
 
+
+function watchForm(){
+	$("form").submit(e => {
+	
+		e.preventDefault();
+		
+		let startCity = $("#startCity").val();
+		let startState = $("#js-search1").find(":selected").val();
+		
+		let destinationCity = $("#destinationCity").val();
+		let destinationState = $("#js-search2").find(":selected").val();
+		
+		Promise.all([getOrigin(startCity, startState), getDestination(destinationCity, destinationState)])
+			.then(data => {
+
+			displayItineraryInput(startCity, destinationCity);
+			getFourSqData(destinationCity, destinationState);
+			getZomatoLocationData(destinationCity, destination);
+			getSameDayWeather(destination);
+			getDirections(origin, destination);
+			getMap(origin, destination);
+
+		});
+	});
+	
+}
+$(watchForm);
 
 //---Fetch Requests---//
 function getOrigin(city, state){ //function fetches start city, state pair and passes object to a lat and lng function
@@ -120,21 +150,6 @@ function getZomatoCollectionData(cityId, destination) {
 }
 
 
-function displayActivities(responseJson){
-	const recommended = responseJson.response.groups.filter(g => g.name === 'recommended')[0].items.slice(0, 5);
-
-	console.log(recommended);
-		
-	for(const r of recommended){
-		$(".js-activities").append(`<p>${r.venue.name}</p>`);
-
-	}
-	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[1]}</p>`);
-	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[2]}</p>`);
-
-}
-
-
 function getFourSqData(city, state) {
 	const fourSqClientId = 'G1NU4QN1WCJA5RJS5UVORD3TQGZQOUI1Y3DGWGRXNA5KI5CM';
 	const fourSqClientSecret = 'SN2D4HMIXTEGGP15EEMKRBI3GO4ORGFONTF4XEOJOVPHGZC1';
@@ -144,46 +159,6 @@ function getFourSqData(city, state) {
 	fetch(url)
 	.then(response => response.json())
 	.then(responseJson => displayActivities(responseJson))
-}
-
-//---End Fetch Requests---//
-
-function watchForm(){
-	$("form").submit(e => {
-	
-		e.preventDefault();
-		
-		let startCity = $("#startCity").val();
-		let startState = $("#js-search1").find(":selected").val();
-		
-		let destinationCity = $("#destinationCity").val();
-		let destinationState = $("#js-search2").find(":selected").val();
-		
-		Promise.all([getOrigin(startCity, startState), getDestination(destinationCity, destinationState)])
-			.then(data => {
-
-			displayItineraryInput();
-			getFourSqData(destinationCity, destinationState);
-			getZomatoLocationData(destinationCity, destination);
-			getSameDayWeather(destination);
-			getDirections(origin, destination);
-			getMap(origin, destination);
-
-		});
-	});
-	
-}
-$(watchForm);
-
-function getMap(origin, destination){
-	
-	
-	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&size=600,400@2x&key=${mapQuestKey}`;
-	console.log(url);
-	$(".route").append(`<img src="${url}" alt="map" width="300" height="200">`);
-	
-	$(".route").css("display", "block");
-	
 }
 
 function getDirections(origin, destination){
@@ -205,63 +180,61 @@ function getSameDayWeather(destination){
 		.catch(err => alert("something is wrong"));
 }
 
+//DISPLAY FUNCTIONS
+
+function getMap(origin, destination){
+	
+	
+	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&key=${mapQuestKey}`;
+	
+	$(".route").append(`<img src="${url}" alt="map">`);
+	
+	$(".route").css("display", "block");
+	
+}
+
 function displayDirections(responseJson){
 	let realtime = responseJson.route.realTime;
 	let miles = responseJson.route.distance;
 	let roundedMiles = Math.round(miles);
 	let time = Math.floor(realtime / 3600);
 	console.log(time);
-	$(".route").append("Trip: " + roundedMiles + "miles/" + time + "hours" )
+	$(".route .js-results").append("Trip: " + roundedMiles + "miles/" + time + "hours" )
 }
 
 function displayWeather(responseJson){
 	
-	$(".weather").append(`<h1>Weather</h1> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> Expect: ${responseJson.daily[0].weather[0].description}.`);
+	$(".weather").append(`<h3>Weather</h3> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> Expect: ${responseJson.daily[0].weather[0].description}.`);
 	
-	$(".weather").css("display", "inline");
+	$(".weather .js-results").css("display", "inline");
 }
 
 function displayRestaurants(responseJson){
 	console.log("restaurants: ", responseJson);
 	
-	$(".js-restaurants").append(`<a href="${responseJson.share_url}"><p>Restaurants</p></a>`);
+	$(".js-restaurants .js-results").append(`<a href="${responseJson.share_url}" target="_blank"><p>Restaurants</p></a>`);
 	
 }
 
+function displayActivities(responseJson){
+	const recommended = responseJson.response.groups.filter(g => g.name === 'recommended')[0].items.slice(0, 5);
+
+	console.log(recommended);
+	
+	for(const r of recommended){
+		$(".js-activities .js-results").append(`<p>${r.venue.name}</p>`);
+
+	}
+	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[1]}</p>`);
+	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[2]}</p>`);
+
+}
+
+
 $("#js-back").on("click", function(){
-	$(".weather").empty();
-	$(".route").empty();
-	$(".js-restaurants").empty();
-	$(".js-activities").empty();
+	$(".js-results").empty();
 	$(".input-itenerary").hide();
 	$(".input-screen").show();
 });
 
-//	fetch(url).then(response => if(!response.ok){
-//		throw new Error (response.message);
-//	}else{
-//		return response.json();
-//	}).then(responseJson => displayWeather(responseJon)).catch(err => "something went wrong");
-//}
 
-//function get16DayWeather(lat, lon){
-//	const url = ``;
-//	
-//	fetch(url).then(response => if(!response.ok){
-///		throw new Error (response.message);
-//	}else{
-//		return response.json();
-//	}).then(responseJson => displayWeather(responseJon)).catch(err => "something went wrong");
-//	
-//}
-//
-//function get30DayWeather(lat, lon){
-//	const url = ``;
-//	
-//	fetch(url).then(response => if(!response.ok){
-//		throw new Error (response.message);
-//	}else{
-//		return response.json();
-//	}).then(responseJson => displayWeather(responseJon)).catch(err => "something went wrong");
-//	
-//}

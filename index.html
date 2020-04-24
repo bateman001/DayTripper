@@ -78,7 +78,7 @@
               </select>
 			</div>
 			
-			<div class="flex2">
+		  <div class="flex2">
 			<legend> Your Destination</legend>
 			
 			<label for="destinationCity">City</label>
@@ -139,13 +139,7 @@
               </select>
 				</div>
 			</div>
-		<!--	
-			<label for="date">Date</label>
-			<input id="date" type="date" required>
-			
-			<label for="time">Time of Departure</label>
-			<input id="time" type="time" required>
-		-->	
+		
 			<button type="submit">submit</button>
 		</form>
 		
@@ -153,22 +147,44 @@
 	
 	<section class="input-itenerary">
 		
-		<div class="route">
-		<!--route goes here -->
-		</div>
+		<h2 class="yourTripTitle">Your Trip</h2>
+		
+		<h3><span id="origin"></span> to <span id="destination"></span></h3>
+		
+	<div class="weatherandMap">
 		
 		<div class="weather">
 		<!--weather goes here -->		
+			<div class="js-results">
+			
+			</div>
 		</div>
 		
-		<div class="js-restaurants">
-			<h1>Restaurants</h1>
+		<div class="route">
+			<div class="js-results">
+			
+			</div>
+		</div>
+		
+	</div>
+		<div class="toDo">
+			
+			<h3>Things To Do</h3>
 
+		<div class="js-restaurants">
+			
+			<div class="js-results">
+			
+			</div>
+			
 		</div>
 		
 		<div class="js-activities">
-			<h1>Activities</h1>
 			
+			<div class="js-results">
+			
+			</div>
+		</div>
 		</div>
 		
 		<button type="button" id="js-back">Last Page</button>
