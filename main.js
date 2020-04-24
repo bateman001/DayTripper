@@ -49,7 +49,7 @@ function displayItineraryInput(){
 //---Fetch Requests---//
 function getOrigin(city, state){ //function fetches start city, state pair and passes object to a lat and lng function
 	
-	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
+	const url = `https://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
 	
 	return fetch(url)
@@ -61,7 +61,7 @@ function getOrigin(city, state){ //function fetches start city, state pair and p
 	
 function getDestination(city, state){ //function fetches destintion city and state pair and passes object to a lat and lng function
 	
-	const url = `http://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
+	const url = `https://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	
 	return fetch(url)
 		.then(response => response.json())
@@ -171,7 +171,7 @@ function getMap(origin, destination){
 
 function getDirections(origin, destination){
 	
-	let url = `http://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
+	let url = `https://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
 	
 	fetch(url)
 		.then(response => response.json())
