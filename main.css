@@ -21,6 +21,13 @@ h1{
 	font-size: 60px;
 }
 
+h3{
+	font-size: 35px;
+}
+
+p{
+	font-size: 20px;
+}
 body{
 	height: 100vh;
 	background-image: url("images/foggyRoad.jpg");
@@ -126,33 +133,75 @@ button:hover{
 	margin-right: auto;
 }
 
+
+.input-itenerary h2, h3{
+	text-align: center;
+	border-bottom: none;
+}
+
 .weatherandMap{
-	height: 100vh;
+	height: 70vh;
 	display: flex;
 	justify-content: space-around;
 	margin: 0;
+	background-color: rgba(118,118,118,0.50);
+
 }
+
 .route{
 	width: 50%;
 	margin: 0 auto 0 auto;
-	border: 2px solid black;
-}
-
-.weather{
-	width: 50%;
-	margin: 0 auto 0 auto;
-	border: 2px solid black;
 	text-align: center;
 }
 
-.toDo{
+.route img{
+	margin-top: 5%;
+}
+.weather{
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
+	width: 50%;
+	margin: 0 auto 0 auto;
+	text-align: center;
+}
+
+.weather img{
+	position: relative;
+	bottom: 30px;
+	width: 150px;
+	height: 150px;
+	margin: 0;
+
+}
+
+
+.weatherHeader{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0 auto 0 auto;
+	
+}
+
+.weather-header p{
+	margin: 0;
+}
+.weather-results{
+	text-align: center;
+}
+
+.weather-results p{
+	padding: 5px 0 5px 0;
+}
+.toDo{
+	display: block;
 	width: 100%;
 	border: 2px solid black;
 }
 
-.toDo h3{
-	align-self: center;
+.restAndAct{
+	display: flex;
+	justify-content: space-around;
 }
+
 

@@ -66,7 +66,7 @@ function watchForm(){
 			displayItineraryInput(startCity, destinationCity);
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
-			getSameDayWeather(destination);
+			getSameDayWeather(destination, destinationCity);
 			getDirections(origin, destination);
 			getMap(origin, destination);
 
@@ -74,6 +74,7 @@ function watchForm(){
 	});
 	
 }
+
 $(watchForm);
 
 //---Fetch Requests---//
@@ -171,42 +172,51 @@ function getDirections(origin, destination){
 		.catch(err => alert("someting went wrong"));
 }
 
-function getSameDayWeather(destination){
+function getSameDayWeather(destination, destinationCity){
 	const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${destination[0]}&lon=${destination[1]}&units=imperial&appid=${weatherKey}`;
 		
 	fetch(url)
 		.then(response => response.json())
-		.then(responseJson => displayWeather(responseJson))
+		.then(responseJson => displayWeather(responseJson, destinationCity))
 		.catch(err => alert("something is wrong"));
 }
 
 //DISPLAY FUNCTIONS
 
-function getMap(origin, destination){
-	
-	
-	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&key=${mapQuestKey}`;
-	
-	$(".route").append(`<img src="${url}" alt="map">`);
-	
-	$(".route").css("display", "block");
-	
-}
 
 function displayDirections(responseJson){
+	
 	let realtime = responseJson.route.realTime;
 	let miles = responseJson.route.distance;
 	let roundedMiles = Math.round(miles);
 	let time = Math.floor(realtime / 3600);
-	console.log(time);
-	$(".route .js-results").append("Trip: " + roundedMiles + "miles/" + time + "hours" )
+	
+	let url = `https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&key=${mapQuestKey}`;
+	
+	
+	$(".route .js-results").append(`<p><b>Trip</b>: ${roundedMiles} miles or about ${time} hours</p>
+									<img src="${url}" alt="map">`);
+	
 }
 
-function displayWeather(responseJson){
+function displayWeather(responseJson, destinationCity){
+	console.log(responseJson);
 	
-	$(".weather").append(`<h3>Weather</h3> <p>High of ${responseJson.daily[0].temp.max} <br> Low of ${responseJson.daily[0].temp.min}.<br> Expect: ${responseJson.daily[0].weather[0].description}.`);
+	let icon = responseJson.current.weather[0].icon;
+	//$("")
+	$(".weather .js-results")
+		.append(`<div class="weatherHeader">
+				<h3>${destinationCity}</h3>
+				<p><b>${responseJson.current.temp}&#8457</b></p>
+				<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="icon">
+				</div>`);
 	
-	$(".weather .js-results").css("display", "inline");
+	$(".weather .js-results")
+		.append(`<div class="weather-results">
+					<p><b>High</b>: ${responseJson.daily[0].temp.max}&#8457 <b>Low</b>: ${responseJson.daily[0].temp.min}&#8457</p> 
+					<p><b>Expect</b>: ${responseJson.daily[0].weather[0].description}</p>
+				</div>`);
+	
 }
 
 function displayRestaurants(responseJson){
