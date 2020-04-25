@@ -246,6 +246,7 @@ function displayActivities(responseJson){
 $("#js-back").on("click", function(){
 	$(".nameOfApp").show();
 	$(".js-results").empty();
+	$(".js-activities").empty();
 	$(".input-itenerary").hide();
 	$(".input-screen").show();
 });
