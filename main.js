@@ -41,6 +41,8 @@ function content() {
 function displayItineraryInput(startCity, destinationCity){
 		
 	console.log("cities" + startCity + destinationCity);
+	
+	$(".nameOfApp").hide();
 	$(".input-screen").css("display", "none");
 	$("#origin").html(startCity);
 	$("#destination").html(destinationCity);
@@ -54,7 +56,6 @@ function watchForm(){
 	$("form").submit(e => {
 	
 		e.preventDefault();
-		$("img").css("display", "none");
 		let startCity = $("#startCity").val();
 		let startState = $("#js-search1").find(":selected").val();
 		
@@ -229,7 +230,7 @@ function displayRestaurants(responseJson){
 function displayActivities(responseJson){
 	const recommended = responseJson.response.groups.filter(g => g.name === 'recommended')[0].items.slice(0, 5);
 	
-	$(".js-activities").prepend("<h3>activities</h3>")
+	$(".js-activities").prepend("<h3>Activities</h3>")
 	
 	for(const r of recommended){
 		$(".js-activities .js-results").append(`<div class="toggle-results">
@@ -243,6 +244,7 @@ function displayActivities(responseJson){
 
 
 $("#js-back").on("click", function(){
+	$(".nameOfApp").show();
 	$(".js-results").empty();
 	$(".input-itenerary").hide();
 	$(".input-screen").show();
