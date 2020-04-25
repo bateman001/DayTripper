@@ -30,6 +30,7 @@ $(document).ready(function(){
 
 function welcomeFade() {
 	$(".js-intro").fadeOut(2000);
+	$("img").fadeTo(2000, 0.2);
 }
 
 function content() {
@@ -53,7 +54,7 @@ function watchForm(){
 	$("form").submit(e => {
 	
 		e.preventDefault();
-		
+		$("img").css("display", "none");
 		let startCity = $("#startCity").val();
 		let startState = $("#js-search1").find(":selected").val();
 		
