@@ -196,7 +196,7 @@ function displayDirections(responseJson){
 	
 	
 	$(".route .js-results").append(`<p><b>Trip</b>: ${roundedMiles} miles or about ${time} hours</p>
-									<img src="${url}" alt="map">`);
+									<img id="map" src="${url}" alt="map">`);
 	
 }
 
@@ -245,6 +245,10 @@ function displayActivities(responseJson){
 
 $("#js-back").on("click", function(){
 	$(".nameOfApp").show();
+	$("#startCity").val(" ");
+	$("#js-search1").val(" ");
+	$("#destinationCity").val(" ");
+	$("#js-search2").val(" ");
 	$(".js-results").empty();
 	$(".js-activities").empty();
 	$(".input-itenerary").hide();
