@@ -16,6 +16,11 @@
 	src: url();
 }
 */
+
+a{
+	text-decoration: none;
+	color: black;
+}
 h1{
 	font-family: header;
 	font-size: 60px;
@@ -114,6 +119,7 @@ select{
 }
 
 button{
+	font-size: 25px;
 	width: 15%;
 	margin: 5% auto 10% auto;
 }
@@ -140,7 +146,7 @@ button:hover{
 }
 
 .weatherandMap{
-	height: 70vh;
+	height: 100vh;
 	display: flex;
 	justify-content: space-around;
 	margin: 0;
@@ -150,7 +156,7 @@ button:hover{
 
 .route{
 	width: 50%;
-	margin: 0 auto 0 auto;
+	margin: 5% auto 0 auto;
 	text-align: center;
 }
 
@@ -161,7 +167,7 @@ button:hover{
 	display: flex;
 	justify-content: center;
 	width: 50%;
-	margin: 0 auto 0 auto;
+	margin: 5% auto 0 auto;
 	text-align: center;
 }
 
@@ -201,7 +207,41 @@ button:hover{
 
 .restAndAct{
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
+	width: 100%;
 }
 
+.js-restaurants{
+	width: 50%;
+	height: 20%;
+	margin: 0;
+	background-color: rgba(236,49,52,0.74);
+}
 
+.js-restaurants:hover{
+	cursor: pointer;
+	transition: 0.4s;
+	background-color: rgba(30,30,30,0.95);
+
+}
+
+.js-activities{
+	width: 50%;
+	height: 20%;
+	margin: 0;
+	background-color: rgba(104,104,104,0.92);
+
+}
+
+.js-activities:hover{
+	cursor: pointer;
+	transition: 0.4s;
+	background-color: rgba(104,104,104,0.82);
+}
+
+.toggle-results{
+	
+	margin-left: 5%;
+	background-color: transparent;
+
+}

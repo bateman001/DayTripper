@@ -68,7 +68,6 @@ function watchForm(){
 			getZomatoLocationData(destinationCity, destination);
 			getSameDayWeather(destination, destinationCity);
 			getDirections(origin, destination);
-			getMap(origin, destination);
 
 		});
 	});
@@ -222,22 +221,23 @@ function displayWeather(responseJson, destinationCity){
 function displayRestaurants(responseJson){
 	console.log("restaurants: ", responseJson);
 	
-	$(".js-restaurants .js-results").append(`<a href="${responseJson.share_url}" target="_blank"><p>Restaurants</p></a>`);
+	$(".js-restaurants .js-results").append(`<h3><a href="${responseJson.share_url}" target="_blank">Restaurants</a></h3>`);
 	
 }
 
 function displayActivities(responseJson){
 	const recommended = responseJson.response.groups.filter(g => g.name === 'recommended')[0].items.slice(0, 5);
-
-	console.log(recommended);
+	
+	$(".js-activities").prepend("<h3>activities</h3>")
 	
 	for(const r of recommended){
-		$(".js-activities .js-results").append(`<p>${r.venue.name}</p>`);
+		$(".js-activities .js-results").append(`<div class="toggle-results">
+												<p>${r.venue.name}</p>
+												</div>`);
 
 	}
-	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[1]}</p>`);
-	//$(".activities").append(`<p>${responseJson.groups[0].items[0].venue.location.formattedAddress[2]}</p>`);
-
+	
+	$(".toggle-results").hide();
 }
 
 
@@ -247,4 +247,7 @@ $("#js-back").on("click", function(){
 	$(".input-screen").show();
 });
 
+$(".js-activities").click(e => {
+	$(".toggle-results").show("blind", {direction: "up"}, 2000);
+});
 
