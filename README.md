@@ -1,5 +1,7 @@
 # <b>Day Tripper</b>
 
+*https://bateman001.github.io/DayTripper/
+
 *This app requires the user to input city and state, and displays an itemized itinerary*
 <br>
 *that displays Weather, Route, Restaurants and Activities to the user.*
