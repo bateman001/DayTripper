@@ -56,19 +56,23 @@ function watchForm(){
 	$("form").submit(e => {
 	
 		e.preventDefault();
-		let startCity = $("#startCity").val();
+		let sCity = $("#startCity").val();
+		let startCity = sCity.split(' ').join('+');
+		
 		let startState = $("#js-search1").find(":selected").val();
 		
-		let destinationCity = $("#destinationCity").val();
+		
+		let dCity = $("#destinationCity").val();
+		let destinationCity = dCity.split(' ').join('+');
 		let destinationState = $("#js-search2").find(":selected").val();
 		
 		Promise.all([getOrigin(startCity, startState), getDestination(destinationCity, destinationState)])
 			.then(data => {
 
-			displayItineraryInput(startCity, destinationCity);
+			displayItineraryInput(sCity, dCity);
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
-			getSameDayWeather(destination, destinationCity);
+			getSameDayWeather(destination, dCity);
 			getDirections(origin, destination);
 
 		});
@@ -173,12 +177,12 @@ function getDirections(origin, destination){
 		.catch(err => alert("someting went wrong"));
 }
 
-function getSameDayWeather(destination, destinationCity){
+function getSameDayWeather(destination, dCity){
 	const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${destination[0]}&lon=${destination[1]}&units=imperial&appid=${weatherKey}`;
 		
 	fetch(url)
 		.then(response => response.json())
-		.then(responseJson => displayWeather(responseJson, destinationCity))
+		.then(responseJson => displayWeather(responseJson, dCity))
 		.catch(err => alert("something is wrong"));
 }
 
@@ -200,14 +204,14 @@ function displayDirections(responseJson){
 	
 }
 
-function displayWeather(responseJson, destinationCity){
+function displayWeather(responseJson, dCity){
 	console.log(responseJson);
 	
 	let icon = responseJson.current.weather[0].icon;
 	//$("")
 	$(".weather .js-results")
 		.append(`<div class="weatherHeader">
-				<h3>${destinationCity}</h3>
+				<h3>${dCity}</h3>
 				<p><b>${responseJson.current.temp}&#8457</b></p>
 				<img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="icon">
 				</div>`);
