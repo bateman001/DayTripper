@@ -129,7 +129,7 @@ label{
 
 select, input{
 	font-family: paragraph;
-	width: 50%;
+	width: 70%;
 	margin: 5% auto 0 auto;
 	text-align: left;
 	padding: 5px;
@@ -276,10 +276,8 @@ button:hover{
 
 }
 
-
-
-/*Mobile */
-@media screen and (min-width: 700px){
+@media screen and (min-width: 700px) and (max-width: 900px){
+	
 *{
 	box-sizing: border-box;
 }
@@ -374,7 +372,7 @@ form{
 
 .flex1{
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	
 }
 
@@ -382,13 +380,14 @@ form{
 	display: flex;
 	flex-direction: column;
 	width: 50%;
+	padding: 0 10% 0 10%;
 }
 
 legend{
-	font-size: 25px;
+	font-size: 20px;
 	font-family: header;
 	border-bottom: 2px solid black;
-	width: 90%;
+	width: 100%;
 	margin: 10% auto 0 auto;
 }
 
@@ -406,7 +405,284 @@ label{
 
 select, input{
 	font-family: paragraph;
-	width: 40%;
+	width: 70%;
+	margin: 5% auto 0 auto;
+	text-align: left;
+	padding: 5px;
+	font-size: 15px;
+	
+}
+
+select{
+	margin-bottom: 10%;
+}
+
+button{
+	font-family: paragraph;
+	font-size: 25px;
+	width: 50%;
+	margin: 5% auto 10% auto;
+	border: none;
+}
+
+button:hover{
+	cursor: pointer;
+	background-color: #666;
+	color: white;
+	transition: 0.4s;
+}
+
+.input-itenerary{
+	display: none;
+	flex-direction: column;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+.input-itenerary h2, h3{
+	text-align: center;
+	border-bottom: none;
+}
+
+.weatherandMap{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	background-color: rgba(118,118,118,0.50);
+
+}
+
+.route{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 5% auto 0 auto;
+	text-align: center;
+	overflow: hidden;
+	padding-bottom: 5%;
+	
+}
+
+	#map{
+		width: 300px;
+		height: 300px;
+	}
+
+.weather{
+	display: flex;
+	justify-content: center;
+	width: 50%;
+	margin: 5% auto 0 auto;
+	text-align: center;
+}
+
+.weather img{
+	position: relative;
+	bottom: 30px;
+	width: 150px;
+	height: 150px;
+	margin: 0;
+
+}
+
+
+.weatherHeader{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0 auto 0 auto;
+	
+}
+
+.weather-header p{
+	margin: 0;
+}
+.weather-results{
+	text-align: center;
+}
+
+.weather-results p{
+	padding: 5px 0 5px 0;
+}
+
+.restAndAct{
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.js-restaurants{
+	width: 50%;
+	height: 20%;
+	margin: 0;
+	background-color: rgba(236,49,52,0.74);
+}
+
+.js-restaurants:hover{
+	cursor: pointer;
+	transition: 0.4s;
+	background-color: rgba(30,30,30,0.95);
+
+}
+
+.js-activities{
+	width: 50%;
+	height: 20%;
+	margin: 0;
+	background-color: rgba(104,104,104,0.92);
+
+}
+
+.js-activities:hover{
+	cursor: pointer;
+	transition: 0.4s;
+	background-color: rgba(104,104,104,0.82);
+}
+
+.toggle-results{
+	
+	margin-left: 5%;
+	background-color: transparent;
+
+}
+
+	
+	
+}
+
+@media screen and (min-width: 901px){
+*{
+	box-sizing: border-box;
+}
+
+
+@font-face{
+	font-family: header;
+	src: url("style/TravelingTypewriter/fonts/traveling-typewriterregular.woff");
+}
+
+
+@font-face{
+	font-family: header2;
+	src: url("style/NixieOne/fonts/NixieOne.woff");
+}
+
+@font-face{
+	font-family: paragraph;
+	src: url("style/openSerif/OpenSerif-Book.woff");
+}
+
+a{
+	text-decoration: none;
+	color: black;
+
+}
+h1{
+	font-family: header;
+	font-size: 60px;
+}
+
+h3{
+	font-family: header2;
+	font-size: 35px;
+}
+
+p{
+	font-family: paragraph;
+	font-size: 20px;
+}
+body{
+	height: 100vh;
+	background-image: url("images/foggyRoad.jpg");
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+/*Screen 1 */
+.js-intro{
+	display: none;
+	position: relative;
+	width: 50%;
+	margin: 10% auto 0 auto;
+	text-align: center;
+}
+
+.js-intro h1{
+	position: relative;
+	text-align: center;
+	
+}
+#compass{
+	display: block;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+  	transform: translate(-50%, -50%);
+	z-index: -1;
+}
+
+.nameOfApp{
+	display: none;
+	text-align: center;
+}
+
+/* Screen 2 */
+.input-screen{
+	display: none;
+	position: relative;
+	z-index: 1;
+	width: 50%;
+	margin: 5% auto 0 auto;
+	text-align: center;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+}
+
+.flex1{
+	display: flex;
+	justify-content: center;
+	
+}
+
+.flex2{
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	padding: 0 10% 0 10%;
+}
+
+legend{
+	font-size: 25px;
+	font-family: header;
+	border-bottom: 2px solid black;
+	width: 100%;
+	margin: 10% auto 0 auto;
+}
+
+h2{
+	font-family: header;
+	font-size: 50px;
+	border-bottom: 3px solid black;
+	text-align: center;
+}
+
+label{
+	font-family: paragraph;
+	margin-top: 5%;	
+}
+
+select, input{
+	font-family: paragraph;
+	width: 70%;
 	margin: 5% auto 0 auto;
 	text-align: left;
 	padding: 5px;
@@ -471,6 +747,7 @@ button:hover{
 	width: 50%;
 	margin: 5% auto 0 auto;
 	text-align: center;
+	overflow: hidden;
 }
 
 .weather img{

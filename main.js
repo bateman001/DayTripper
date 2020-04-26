@@ -1,13 +1,3 @@
-//JavaScript Document
-//
-//WEATHER API INFO
-//3 weather options: current, 10 day forecast, 30 day 
-//Same Day Forecast url: api.openweathermap.org/data/2.5/weather?q={city name},{state},{country code}&appid={your api key}
-//
-//MAP QUEST INFO
-//GEOCODE: http://open.mapquestapi.com/geocoding/v1/address?key=KEY&location=${CITY},${STATE}
-//MAP w/ ROOUTE: https://www.mapquestapi.com/staticmap/v5/map?start=${origin[0]},${origin[1]}&end=${destination[0]},${destination[1]}&key=${mapQuestKey}
-
 
 //---Code Start---//
 
@@ -89,7 +79,13 @@ function getOrigin(city, state){ //function fetches start city, state pair and p
 	
 	console.log(url);
 	return fetch(url)
-		.then(response => response.json())
+		.then(response => { 
+			if(!response.ok){
+				return response.message;	
+			}else{
+				return response.json()
+			}
+		})
 		.then(responseJson => originLatandLng(responseJson))
 		.catch(err => alert("Wrong address"));
 	
@@ -100,7 +96,13 @@ function getDestination(city, state){ //function fetches destintion city and sta
 	const url = `https://open.mapquestapi.com/geocoding/v1/address?key=${mapQuestKey}&location=${city},${state}`;
 	console.log(url);
 	return fetch(url)
-		.then(response => response.json())
+		.then(response => { 
+			if(!response.ok){
+				return response.message;	
+			}else{
+				return response.json()
+			}
+		})
 		.then(responseJson => destinationLatandLng(responseJson))
 		.catch(err => alert("Wrong address"));
 }
@@ -134,10 +136,15 @@ function getZomatoLocationData(city, destination) {
 	};
 
 	fetch(url, options)
-		.then(response => response.json())
-		.then(responseJson => {
-			getZomatoCollectionData(responseJson.location_suggestions[0].entity_id, destination)
+		.then(response => { 
+			if(!response.ok){
+				return response.message;	
+			}else{
+				return response.json()
+			}
 		})
+		.then(responseJson => {
+			getZomatoCollectionData(responseJson.location_suggestions[0].entity_id, destination)}).catch(err => alert("something went wrong"));
 }
 
 function getZomatoCollectionData(cityId, destination) {
@@ -152,6 +159,7 @@ function getZomatoCollectionData(cityId, destination) {
 	fetch(url, options)
 	.then(response => response.json())
 	.then(responseJson => displayRestaurants(responseJson))
+	.catch(err => alert("something went wrong"));
 
 }
 
@@ -163,8 +171,15 @@ function getFourSqData(city, state) {
 	const url = `https://api.foursquare.com/v2/venues/explore?v=20200421&client_id=${fourSqClientId}&client_secret=${fourSqClientSecret}&section=outdoors&near=${city}, ${state}&radius=2000&limit=10`;
 
 	fetch(url)
-	.then(response => response.json())
+	.then(response => { 
+			if(!response.ok){
+				return response.message;	
+			}else{
+				return response.json()
+			}
+		})
 	.then(responseJson => displayActivities(responseJson))
+	.catch(err => alert("something went wrong"));
 }
 
 function getDirections(origin, destination){
@@ -172,7 +187,13 @@ function getDirections(origin, destination){
 	let url = `https://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
 	console.log(url);
 	fetch(url)
-		.then(response => response.json())
+		.then(response => { 
+			if(!response.ok){
+				return response.message;	
+			}else{
+				return response.json()
+			}
+		})
 		.then(responseJson => displayDirections(responseJson))
 		.catch(err => alert("someting went wrong"));
 }
@@ -181,7 +202,13 @@ function getSameDayWeather(destination, dCity){
 	const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${destination[0]}&lon=${destination[1]}&units=imperial&appid=${weatherKey}`;
 		
 	fetch(url)
-		.then(response => response.json())
+		.then(response => { 
+			if(!response.ok){
+				return response.message;	
+			}else{
+				return response.json()
+			}
+		})
 		.then(responseJson => displayWeather(responseJson, dCity))
 		.catch(err => alert("something is wrong"));
 }
