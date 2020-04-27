@@ -420,7 +420,7 @@ select{
 button{
 	font-family: paragraph;
 	font-size: 25px;
-	width: 50%;
+	width: 150px;
 	margin: 5% auto 10% auto;
 	border: none;
 }
@@ -697,7 +697,7 @@ select{
 button{
 	font-family: paragraph;
 	font-size: 25px;
-	width: 50%;
+	width: 150px;
 	margin: 5% auto 10% auto;
 	border: none;
 }
