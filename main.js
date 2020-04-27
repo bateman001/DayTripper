@@ -26,6 +26,7 @@ function welcomeFade() {
 function content() {
 	$(".nameOfApp").fadeIn(1000);
 	$(".input-screen").show("blind", {direction: "up"}, 2000);
+	$("#startCity").focus();
 }
 
 function displayItineraryInput(startCity, destinationCity){
@@ -42,32 +43,31 @@ function displayItineraryInput(startCity, destinationCity){
 
 
 
-function watchForm(){
+function watchForm(){ 
 	$("form").submit(e => {
-	
+
 		e.preventDefault();
-		let sCity = $("#startCity").val();
+
+		let sCity = $("#startCity").val().trim();
 		let startCity = sCity.split(' ').join('+');
-		
 		let startState = $("#js-search1").find(":selected").val();
-		
-		
-		let dCity = $("#destinationCity").val();
+		let dCity = $("#destinationCity").val().trim();
 		let destinationCity = dCity.split(' ').join('+');
 		let destinationState = $("#js-search2").find(":selected").val();
-		
-		Promise.all([getOrigin(startCity, startState), getDestination(destinationCity, destinationState)])
-			.then(data => {
 
+		if( !sCity || !dCity){
+			alert("Invalid input");
+		}else{
+			Promise.all([getOrigin(startCity, startState), getDestination(destinationCity, destinationState)])
+			.then(data => {
 			displayItineraryInput(sCity, dCity);
 			getFourSqData(destinationCity, destinationState);
 			getZomatoLocationData(destinationCity, destination);
 			getSameDayWeather(destination, dCity);
 			getDirections(origin, destination);
-
 		});
+		}
 	});
-	
 }
 
 $(watchForm);
@@ -183,7 +183,6 @@ function getFourSqData(city, state) {
 }
 
 function getDirections(origin, destination){
-	
 	let url = `https://www.mapquestapi.com/directions/v2/route?key=${mapQuestKey}&from=${origin[0]},${origin[1]}&to=${destination[0]},${destination[1]}`;
 	console.log(url);
 	fetch(url)
@@ -289,4 +288,3 @@ $("#js-back").on("click", function(){
 $(".js-activities").click(e => {
 	$(".toggle-results").show("blind", {direction: "up"}, 2000);
 });
-
